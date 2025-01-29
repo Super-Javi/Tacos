@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tacos Super Javi el Mejor Sabor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf3e3;
+            color: #333;
+        }
+        header {
+            background-color: #ff4500;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .logo img:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .hero {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .menu-item {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item h3 {
+            color: #ff4500;
+        }
+        .menu-item button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-item button:hover {
+            background-color: #e03d00;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="logoClick()">
+            <img src="https://i.postimg.cc/V67vpKWK/taco.png" alt="Logotipo OK Tacos El Buen Sabor">
+        </div>
+        <h1>Tacos Super Javi "El Buen Sabor"</h1>
+        <p>¡El mejor servicio de tacos para tus convivios y eventos!</p>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>¡Haz de tu convivio algo especial con nuestros tacos!</h1>
+            <p>Contrata nuestro servicio de tacos al pastor, suadero, bistec y más para tus fiestas y eventos.</p>
+        </section>
+
+        <section class="menu">
+            <div class="menu-item">
+                <h3>Tacos al Pastor</h3>
+                <p>El clásico sabor mexicano con piña y salsa.</p>
+                <p>Tacos ilimitados para 50 personas</p>
+                <button onclick="addToCart('Tacos al Pastor')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Suadero</h3>
+                <p>Suaves y jugosos, perfectos para cualquier ocasión.</p>
+                <button onclick="addToCart('Tacos de Suadero')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Bistec</h3>
+                <p>Hechos con carne de primera calidad.</p>
+                <button onclick="addToCart('Tacos de Bistec')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Chorizo</h3>
+                <p>Un toque picante para los amantes del sabor intenso.</p>
+                <button onclick="addToCart('Tacos de Chorizo')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Tinga</h3>
+                <p>Pollo desmenuzado en una rica salsa de jitomate y chipotle.</p>
+                <button onclick="addToCart('Tacos de Tinga')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Cochinita</h3>
+                <p>Cerdo marinado con achiote y cítricos, al estilo Yucatán.</p>
+                <button onclick="addToCart('Tacos de Cochinita')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Rajas</h3>
+                <p>Rajas de chile poblano con crema y elote.</p>
+                <button onclick="addToCart('Tacos de Rajas')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Lengua</h3>
+                <p>Exquisita carne de lengua de res, suave y deliciosa.</p>
+                <button onclick="addToCart('Tacos de Lengua')">Cotiza tu pedido</button>
+            </div>
+            <div class="menu-item">
+                <h3>Tacos de Cabeza</h3>
+                <p>Tacos tradicionales con carne de cabeza de res al vapor.</p>
+                <button onclick="addToCart('Tacos de Cabeza')">Cotiza tu pedido</button>
+            </div>
+        </section>
+
+        <section id="pedido" style="margin-top: 2rem;">
+            <h2>Tu Pedido</h2>
+            <ul id="pedido-lista"></ul>
+            <p id="total" style="font-weight: bold;"></p>
+            <p id="total-costo" style="font-weight: bold;"></p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Tacos Super Javi "El Buen Sabor". Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const pedido = [];
+        const precios = {
+            'Tacos al Pastor': 6500,
+            'Tacos de Suadero': 15,
+            'Tacos de Bistec': 20,
+            'Tacos de Chorizo': 18,
+            'Tacos de Tinga': 17,
+            'Tacos de Cochinita': 17,
+            'Tacos de Rajas': 17,
+            'Tacos de Lengua': 25,
+            'Tacos de Cabeza': 22
+        };
+
+        function addToCart(item) {
+            pedido.push(item);
+            renderPedido();
+        }
+
+        function renderPedido() {
+            const lista = document.getElementById('pedido-lista');
+            lista.innerHTML = '';
+
+            let totalCosto = 0;
+
+            pedido.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. ${item} - $${precios[item]} MXN`;
+                lista.appendChild(li);
+                totalCosto += precios[item];
+            });
+
+            const total = document.getElementById('total');
+            total.textContent = `Total de tacos: ${pedido.length}`;
+
+            const totalCostoElemento = document.getElementById('total-costo');
+            totalCostoElemento.textContent = `Costo total: $${totalCosto} MXN`;
+        }
+
+        function logoClick() {
+            alert('¡Bienvenidos a Tacos El Buen Sabor! ¡Prueba nuestros deliciosos tacos!');
+        }
+    </script>
+
+</div>
+
+
+</body>
+</html>

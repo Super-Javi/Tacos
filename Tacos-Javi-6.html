@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tacos El Buen Sabor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf3e3;
+            color: #333;
+        }
+        header {
+            background-color: #ff4500;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .menu-item button, .pedido button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-item button:hover, .pedido button:hover {
+            background-color: #e03d00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tacos El Buen Sabor</h1>
+    </header>
+
+    <div class="container">
+        <section class="menu">
+            <div class="menu-item">
+                <h3>Tacos al Pastor</h3>
+                <button onclick="addToCart('Tacos al Pastor')">Agregar al pedido</button>
+            </div>
+        </section>
+
+        <section id="pedido" class="pedido">
+            <h2>Tu Pedido</h2>
+            <ul id="pedido-lista"></ul>
+            <p id="total"></p>
+            <p id="total-costo"></p>
+            <button onclick="printPedido()">Imprimir Pedido</button>
+        </section>
+    </div>
+
+    <script>
+        const pedido = [];
+        const precios = { 'Tacos al Pastor': 15 };
+
+        function addToCart(item) {
+            pedido.push(item);
+            renderPedido();
+        }
+
+        function removeFromCart(index) {
+            pedido.splice(index, 1);
+            renderPedido();
+        }
+
+        function renderPedido() {
+            const lista = document.getElementById('pedido-lista');
+            lista.innerHTML = '';
+            let totalCosto = 0;
+
+            pedido.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${item} - $${precios[item]} MXN`;
+                const btnEliminar = document.createElement('button');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.onclick = () => removeFromCart(index);
+                li.appendChild(btnEliminar);
+                lista.appendChild(li);
+                totalCosto += precios[item];
+            });
+
+            document.getElementById('total').textContent = `Total de tacos: ${pedido.length}`;
+            document.getElementById('total-costo').textContent = `Costo total: $${totalCosto} MXN`;
+        }
+
+        function printPedido() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
